@@ -1,0 +1,219 @@
+/* ============================================================
+   animations.css — All @keyframes, Transitions, Motion
+   
+   Every animation in the app is defined here. This makes it
+   easy to adjust timing, easing, and motion across the board.
+   ============================================================ */
+
+/* ---- ENTRANCE ANIMATIONS ---- */
+
+/* Header slides down from offscreen */
+@keyframes slide-down {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Panel fades in */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Fade in and slide up — for stat cards stagger entrance */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Bottom panel slides up */
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ---- STAT NUMBER FLIP ---- */
+@keyframes flip-in {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes flip-out-up {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
+/* ---- HEADER SHIMMER ---- */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ---- LIVE PULSE DOT ---- */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 0.3; transform: scale(0.85); }
+  50%      { opacity: 1;   transform: scale(1.1); }
+}
+
+/* ---- TEXTAREA GLOW BORDER PULSE ---- */
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.3; box-shadow: 0 0 4px var(--color-accent-dim); }
+  50%      { opacity: 1;   box-shadow: 0 0 12px var(--color-accent-glow); }
+}
+
+/* ---- TEXTAREA BOX-SHADOW PULSE ---- */
+@keyframes typing-glow {
+  0%, 100% {
+    box-shadow: inset 0 0 0 1px transparent;
+  }
+  50% {
+    box-shadow: inset 0 0 0 1px var(--color-accent-dim);
+  }
+}
+
+/* ---- TEXT WIPE (for clear animation) ---- */
+@keyframes wipe-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+/* ---- BAR CHART BAR GROW ---- */
+@keyframes bar-grow {
+  from { width: 0%; }
+}
+
+/* ---- LETTER FREQ BAR GROW ---- */
+@keyframes bar-grow-up {
+  from { height: 0; }
+}
+
+/* ---- TYPE-ITSELF CURSOR BLINK ---- */
+@keyframes blink-cursor {
+  0%, 100% { border-right-color: var(--color-accent); }
+  50%      { border-right-color: transparent; }
+}
+
+/* ---- GAUGE NEEDLE SWEEP ---- */
+@keyframes gauge-sweep {
+  from { stroke-dashoffset: var(--gauge-circumference, 157); }
+}
+
+/* ---- Loading Animation ---- */
+.anim-slide-down {
+  animation: slide-down var(--duration-slow) var(--ease-out) both;
+}
+
+.anim-fade-in {
+  animation: fade-in var(--duration-slow) var(--ease-out) both;
+}
+
+.anim-slide-up {
+  animation: slide-up var(--duration-slow) var(--ease-out) both;
+}
+
+/* Stagger delay utility — applied via JS by setting
+   style="animation-delay: calc(0.05s * INDEX)" */
+.anim-stagger {
+  animation: fade-in-up var(--duration-slow) var(--ease-out) both;
+}
+
+/* ---- INTERSECTION OBSERVER CLASSES ---- */
+
+/* Hidden until viewport entry */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity var(--duration-slow) var(--ease-out),
+              transform var(--duration-slow) var(--ease-out);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---- WIPE ANIMATION CLASS ---- */
+.wipe {
+  animation: wipe-out 0.3s var(--ease-out) forwards;
+}
+
+/* ---- TYPING PLACEHOLDER ANIMATION ---- */
+.typing-placeholder {
+  border-right: 2px solid var(--color-accent);
+  animation: blink-cursor 0.8s step-start infinite;
+  white-space: pre-wrap;
+}
+
+/* ---- SVG GAUGE ANIMATION ---- */
+.gauge-arc-animated {
+  transition: stroke-dashoffset var(--duration-slower) var(--ease-out);
+}
+
+/* ---- CURSOR GLOW FOLLOWER ---- */
+.cursor-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 340px;
+  height: 340px;
+  margin-left: -170px;
+  margin-top: -170px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(245, 166, 35, 0.10) 0%,
+    rgba(245, 166, 35, 0.04) 40%,
+    transparent 70%
+  );
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--duration-slow) var(--ease-out);
+  z-index: 10000;
+  will-change: transform;
+}
+
+/* ---- RESPONSIVE MOTION REDUCTION ---- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
